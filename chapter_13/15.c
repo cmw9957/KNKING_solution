@@ -17,18 +17,29 @@ bool is_empty(void);
 bool is_full(void);
 void push(char);
 char pop(void);
+int evaluate_RPN_expression(const char *expression);
 
 int main(void){
-	char c, total;
+	char c, total, expression[101], *p;
 	int a, b;
 	
-	printf("Enter an RPN expression (Quit for press q or Q): ");
 	while(1){
-		scanf(" %c", &c);
-		if(isdigit(c))
-			push(c - '0');
+		printf("Enter an RPN expression (Quit for press q or Q): ");
+		gets(expression);
+		printf("Value of expression: %d\n", evaluate_RPN_expression(expression));
+		p = expression;
+		while(*p) *p++ = '\0';
+	}
+	
+}
+
+int evaluate_RPN_expression(const char *expression){
+	int a, b, ans;
+	while(1){
+		if(isdigit(*expression))
+			push(*expression - '0');
 		else
-			switch(c){
+			switch(*expression){
 				case '+':
 					push(pop() + pop()); break;
 				case '-':
@@ -42,14 +53,15 @@ int main(void){
 					b = pop();
 					push(b / a); break;
 				case '=':
-					printf("Value of expression: %d\n", pop());
-					printf("\nEnter an RPN expression (Quit for press q or Q): ");
-					make_empty(); break;
+					ans = pop();
+					make_empty();
+					return ans;
 				case ' ':
 					break;
 				default:
 					exit(0);
 			}
+		expression++;
 	}
 }
 
