@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<string.h>
+#include<stdbool.h>
 #include"line.h"
 
 #define MAX_LINE_LEN 60
@@ -15,14 +16,14 @@ void clear_line(void){
 }
 
 void add_word(const char *word){
-	if(num_word > 0){
+	if(num_words > 0){
 		line[line_len] = ' ';
 		line[line_len + 1] = '\0';
 		line_len++;
 	}
 	strcat(line, word);
 	line_len += strlen(word);
-	num_word++;
+	num_words++;
 }
 
 int space_remaining(void){
@@ -37,7 +38,7 @@ void write_line(void){
 		if(line[i] != ' ')
 			putchar(line[i]);
 		else{
-			space_to_insert = extra_spaces / (num_words - 1);
+			spaces_to_insert = extra_spaces / (num_words - 1);
 			for(j = 1;j <= spaces_to_insert + 1;j++)
 				putchar(' ');
 			extra_spaces -= spaces_to_insert;
